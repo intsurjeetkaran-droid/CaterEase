@@ -20,7 +20,7 @@ function ProtectedRoute({ role }) {
   if (!token) return <Navigate to="/login" replace />
   if (!user) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
+      <div className="flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-950">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-200 border-t-orange-500" />
       </div>
     )
