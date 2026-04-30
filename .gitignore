@@ -38,3 +38,8 @@ coverage/
 # Misc
 *.pem
 .cache/
+
+# Project specific - sensitive files
+guide.txt
+credentials.txt
+

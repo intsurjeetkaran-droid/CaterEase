@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "build": "echo 'Backend build complete'",
     "seed": "node seed.js",
     "test": "node test.js"
   },
