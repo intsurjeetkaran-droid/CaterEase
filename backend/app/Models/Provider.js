@@ -25,6 +25,23 @@ const providerSchema = new mongoose.Schema({
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending',
   },
+  payment_details: {
+    upi_id: {
+      type: String,
+      trim: true,
+    },
+    qr_code: {
+      type: String, // stores base64 data URI or URL
+    },
+    bank_name: {
+      type: String,
+      trim: true,
+    },
+    account_holder_name: {
+      type: String,
+      trim: true,
+    },
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Provider', providerSchema);

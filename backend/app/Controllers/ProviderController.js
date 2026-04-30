@@ -59,6 +59,52 @@ const createProfile = async (req, res, next) => {
 };
 
 /**
+ * @route  GET /api/provider/profile
+ * @access Private (Provider)
+ */
+const getProfile = async (req, res, next) => {
+  try {
+    const provider = await Provider.findOne({ user_id: req.user._id });
+    if (!provider) {
+      return res.status(404).json({ success: false, message: 'Provider profile not found.' });
+    }
+    res.status(200).json({ success: true, data: provider });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @route  PUT /api/provider/payment-details
+ * @access Private (Provider)
+ */
+const updatePaymentDetails = async (req, res, next) => {
+  try {
+    const provider = await Provider.findOne({ user_id: req.user._id });
+    if (!provider) {
+      return res.status(404).json({ success: false, message: 'Provider profile not found. Please create your profile first.' });
+    }
+
+    const { upi_id, qr_code, bank_name, account_holder_name } = req.body;
+
+    provider.payment_details = {
+      upi_id: upi_id?.trim() || provider.payment_details?.upi_id,
+      qr_code: qr_code || provider.payment_details?.qr_code,
+      bank_name: bank_name?.trim() || provider.payment_details?.bank_name,
+      account_holder_name: account_holder_name?.trim() || provider.payment_details?.account_holder_name,
+    };
+
+    await provider.save();
+
+    logger.info('Provider payment details updated', { provider_id: provider._id });
+
+    res.status(200).json({ success: true, data: provider });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @route  PUT /api/admin/providers/:id/approve
  * @access Private (Admin)
  */
@@ -105,4 +151,4 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-module.exports = { getProviders, createProfile, approveProvider, getAllUsers };
+module.exports = { getProviders, createProfile, getProfile, updatePaymentDetails, approveProvider, getAllUsers };

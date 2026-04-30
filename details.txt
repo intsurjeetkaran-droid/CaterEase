@@ -74,9 +74,27 @@ Step 4 — Place Your Order
 
 Step 5 — Make a Payment
   • Go to "My Orders" in the menu
-  • Find your order and click "Pay Now"
+  • Find your order and click "Make Payment"
+  • Choose your payment method:
+    
+    💳 Online Payment:
+    - You'll see the caterer's UPI ID and QR code
+    - Click the copy button to copy the UPI ID
+    - Pay using any UPI app (Google Pay, PhonePe, Paytm, etc.)
+    - Optionally enter the transaction ID for reference
+    - Click "Submit Payment"
+    
+    💵 Cash in Hand:
+    - Select this if you'll pay the caterer directly in cash
+    - The caterer will confirm when they receive the payment
+    - Click "Submit Payment"
+  
   • Enter the amount you want to pay
   • You can pay in parts (advance + remaining later)
+  • Payment status will show:
+    ✓ Paid — Payment confirmed
+    ⏳ Pending — Waiting for confirmation
+    Remaining — Amount still to be paid
   • Once fully paid, the order shows "✓ Fully paid"
 
 Step 6 — Track Your Order
@@ -101,7 +119,17 @@ Step 1 — Create Your Business Profile
   ⚠️  Important: You cannot add menu items or receive orders
       until the Admin approves your profile.
 
-Step 2 — Add Your Menu Items
+Step 2 — Configure Payment Details
+  • Go to "Payment Settings" in the menu
+  • Set up how customers will pay you:
+    - UPI ID (e.g., yourname@paytm)
+    - Account Holder Name
+    - Bank Name
+    - QR Code URL (upload your QR code to Imgur/Cloudinary and paste link)
+  • Click "Save Payment Details"
+  • Customers will see these details when they choose online payment
+
+Step 3 — Add Your Menu Items
   • Once approved, go to "Manage Menus" in the top menu
   • Click "Add Item"
   • Fill in: 
@@ -112,7 +140,7 @@ Step 2 — Add Your Menu Items
   • Click "Save Item"
   • Repeat for all your dishes
 
-Step 3 — Manage Incoming Orders
+Step 4 — Manage Incoming Orders
   • Go to "Orders" in the top menu
   • You'll see all orders placed by customers
   • Each order shows:
@@ -123,6 +151,7 @@ Step 3 — Manage Incoming Orders
     - Special instructions/notes
     - Dishes ordered with quantities
     - Total amount
+    - Payment status (Received, Pending, Remaining)
   
   • Use the buttons to update the order status:
     → Click "Mark as Accepted"   when you confirm the booking
@@ -130,13 +159,21 @@ Step 3 — Manage Incoming Orders
     → Click "Mark as Completed"  after the event is done
     → Click "Cancel"             if you cannot fulfill the order
 
-Step 4 — Contact Customers
+Step 5 — Confirm Cash Payments
+  • When a customer chooses "Cash in Hand" payment
+  • You'll see a yellow box showing "Cash Payment Confirmation Required"
+  • After receiving the cash from the customer:
+    → Click "Received" to confirm you got the payment
+    → Click "Failed" if the payment didn't happen
+  • The payment status will update automatically
+
+Step 6 — Contact Customers
   • Customer phone number is displayed prominently on each order
   • Event location shows exactly where you need to deliver/serve
   • Guest count helps you prepare the right quantity
   • Special notes contain any dietary requirements or preferences
 
-Step 5 — View Your Earnings
+Step 7 — View Your Earnings
   • Your Dashboard shows:
     - Pending Orders count
     - In Progress count
@@ -185,8 +222,22 @@ A: Currently only the provider can cancel an order.
    to request a cancellation.
 
 Q: I paid but the order still shows a remaining balance.
-A: You may have made a partial payment. Click "Pay Now" again
-   to pay the remaining amount.
+A: You may have made a partial payment. Click "Make Payment" again
+   to pay the remaining amount. You can also check if your payment
+   is still pending confirmation.
+
+Q: I chose online payment but don't see the caterer's payment details.
+A: The caterer may not have configured their payment details yet.
+   Contact them directly or choose "Cash in Hand" payment method.
+
+Q: How do I upload a QR code for payments?
+A: Upload your QR code image to a free service like Imgur.com or
+   Cloudinary.com, then copy the image URL and paste it in the
+   Payment Settings page.
+
+Q: Can I change my payment method after submitting?
+A: No, once a payment is submitted, you cannot change the method.
+   Contact the caterer directly if you need to make changes.
 
 Q: My provider account says "pending" — what does that mean?
 A: Your business profile is waiting for admin approval.

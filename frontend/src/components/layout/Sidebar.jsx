@@ -18,6 +18,7 @@ const navConfig = {
     { to: '/caterer', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/caterer/menus', label: 'My Menus', icon: UtensilsCrossed },
     { to: '/caterer/orders', label: 'Orders', icon: ClipboardList },
+    { to: '/caterer/payment-settings', label: 'Payment Settings', icon: CreditCard },
   ],
   owner: [
     { to: '/owner', label: 'Dashboard', icon: LayoutDashboard },

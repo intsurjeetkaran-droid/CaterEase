@@ -119,7 +119,7 @@ const menuTemplates = [
   ],
 ];
 
-// Sample orders data (mix of statuses)
+// Sample orders data (mix of statuses and payment methods)
 const sampleOrders = [
   {
     customerIndex: 0, providerIndex: 0,
@@ -130,7 +130,7 @@ const sampleOrders = [
     status: 'accepted',
     itemIndices: [0, 1, 3, 4],
     quantities: [150, 150, 150, 150],
-    payments: [{ amount: 15000, status: 'paid' }],
+    payments: [{ amount: 15000, payment_method: 'online', status: 'paid', transaction_id: 'TXN123456789' }],
   },
   {
     customerIndex: 1, providerIndex: 1,
@@ -141,7 +141,10 @@ const sampleOrders = [
     status: 'in_progress',
     itemIndices: [0, 1, 3, 4],
     quantities: [200, 200, 200, 200],
-    payments: [{ amount: 50000, status: 'paid' }, { amount: 30000, status: 'paid' }],
+    payments: [
+      { amount: 50000, payment_method: 'online', status: 'paid', transaction_id: 'TXN987654321' }, 
+      { amount: 30000, payment_method: 'cash_in_hand', status: 'paid' }
+    ],
   },
   {
     customerIndex: 2, providerIndex: 2,
@@ -152,7 +155,7 @@ const sampleOrders = [
     status: 'pending',
     itemIndices: [0, 1, 3, 4],
     quantities: [100, 100, 100, 100],
-    payments: [],
+    payments: [{ amount: 10000, payment_method: 'online', status: 'pending' }],
   },
   {
     customerIndex: 3, providerIndex: 3,
@@ -163,7 +166,7 @@ const sampleOrders = [
     status: 'completed',
     itemIndices: [0, 1, 3, 4],
     quantities: [80, 80, 80, 80],
-    payments: [{ amount: 22000, status: 'paid' }],
+    payments: [{ amount: 22000, payment_method: 'cash_in_hand', status: 'paid' }],
   },
   {
     customerIndex: 4, providerIndex: 4,
@@ -174,7 +177,7 @@ const sampleOrders = [
     status: 'accepted',
     itemIndices: [0, 1, 3, 4, 5],
     quantities: [120, 120, 120, 120, 120],
-    payments: [{ amount: 20000, status: 'paid' }],
+    payments: [{ amount: 20000, payment_method: 'online', status: 'paid', transaction_id: 'TXN555666777' }],
   },
   {
     customerIndex: 5, providerIndex: 5,
@@ -196,7 +199,7 @@ const sampleOrders = [
     status: 'completed',
     itemIndices: [0, 1, 3, 4],
     quantities: [180, 180, 180, 180],
-    payments: [{ amount: 55000, status: 'paid' }],
+    payments: [{ amount: 55000, payment_method: 'online', status: 'paid', transaction_id: 'TXN111222333' }],
   },
   {
     customerIndex: 7, providerIndex: 7,
@@ -207,7 +210,7 @@ const sampleOrders = [
     status: 'in_progress',
     itemIndices: [0, 1, 3, 4],
     quantities: [90, 90, 90, 90],
-    payments: [{ amount: 18000, status: 'paid' }],
+    payments: [{ amount: 18000, payment_method: 'cash_in_hand', status: 'pending' }],
   },
   {
     customerIndex: 8, providerIndex: 8,
@@ -218,7 +221,7 @@ const sampleOrders = [
     status: 'accepted',
     itemIndices: [0, 1, 3, 4],
     quantities: [140, 140, 140, 140],
-    payments: [{ amount: 35000, status: 'paid' }],
+    payments: [{ amount: 35000, payment_method: 'online', status: 'paid', transaction_id: 'TXN444555666' }],
   },
   {
     customerIndex: 9, providerIndex: 9,
@@ -229,7 +232,7 @@ const sampleOrders = [
     status: 'pending',
     itemIndices: [0, 1, 3, 4],
     quantities: [250, 250, 250, 250],
-    payments: [],
+    payments: [{ amount: 50000, payment_method: 'cash_in_hand', status: 'pending' }],
   },
 ];
 
@@ -272,6 +275,12 @@ async function seed() {
         phone: p.phone,
         address: p.address,
         approval_status: 'approved',
+        payment_details: {
+          upi_id: `${p.email.split('@')[0]}@paytm`,
+          qr_code: null, // caterers can upload their QR via Payment Settings
+          bank_name: ['HDFC Bank', 'ICICI Bank', 'SBI', 'Axis Bank', 'Kotak Mahindra'][i % 5],
+          account_holder_name: p.name,
+        },
       });
       await provider.save();
       providerProfiles.push(provider);
@@ -335,9 +344,9 @@ async function seed() {
 
     console.log('\n🎉 Seeding complete!');
     console.log('   - 1 Admin');
-    console.log('   - 10 Providers (approved, with 5-6 menu items each)');
+    console.log('   - 10 Providers (approved, with payment details & 5-6 menu items each)');
     console.log('   - 10 Customers');
-    console.log('   - 10 Sample orders (various statuses)');
+    console.log('   - 10 Sample orders (various statuses & payment methods)');
     process.exit(0);
   } catch (err) {
     console.error('❌ Seed error:', err.message);

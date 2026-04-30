@@ -22,6 +22,7 @@ import MyOrders from './pages/customer/MyOrders'
 import CatererDashboard from './pages/caterer/Dashboard'
 import ManageMenus from './pages/caterer/ManageMenus'
 import CatererOrders from './pages/caterer/Orders'
+import PaymentSettings from './pages/caterer/PaymentSettings'
 
 // Owner (admin) pages
 import OwnerDashboard from './pages/owner/Dashboard'
@@ -68,6 +69,7 @@ function App() {
             <Route path="/caterer" element={<CatererDashboard />} />
             <Route path="/caterer/menus" element={<ManageMenus />} />
             <Route path="/caterer/orders" element={<CatererOrders />} />
+            <Route path="/caterer/payment-settings" element={<PaymentSettings />} />
           </Route>
         </Route>
 

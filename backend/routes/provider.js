@@ -2,14 +2,17 @@ const express = require('express');
 const router = express.Router();
 const { body, param } = require('express-validator');
 const { protect, authorize } = require('../app/Middlewares/auth');
-const { createProfile } = require('../app/Controllers/ProviderController');
+const { createProfile, getProfile, updatePaymentDetails } = require('../app/Controllers/ProviderController');
 const { createMenu, updateMenu, deleteMenu } = require('../app/Controllers/MenuController');
-const { getProviderOrders, updateOrderStatus } = require('../app/Controllers/OrderController');
+const { getProviderOrders, updateOrderStatus, updatePaymentStatus } = require('../app/Controllers/OrderController');
 
 // All routes require authentication and provider role
 router.use(protect, authorize('provider'));
 
 router.post('/profile', createProfile);
+router.get('/profile', getProfile);
+
+router.put('/payment-details', updatePaymentDetails);
 
 router.post('/menus', [
   body('name').notEmpty().trim().withMessage('Menu item name is required'),
@@ -48,5 +51,13 @@ router.put('/orders/:id/status', [
     .isIn(['accepted', 'in_progress', 'completed', 'cancelled'])
     .withMessage('Invalid status. Must be: accepted, in_progress, completed, or cancelled'),
 ], updateOrderStatus);
+
+router.put('/orders/:orderId/payment/:paymentId/status', [
+  param('orderId').isMongoId().withMessage('Invalid order ID'),
+  param('paymentId').isMongoId().withMessage('Invalid payment ID'),
+  body('status')
+    .isIn(['paid', 'failed'])
+    .withMessage('Invalid status. Must be: paid or failed'),
+], updatePaymentStatus);
 
 module.exports = router;

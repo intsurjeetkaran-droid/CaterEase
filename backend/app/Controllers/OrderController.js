@@ -27,7 +27,7 @@ const createOrder = async (req, res, next) => {
 const getMyOrders = async (req, res, next) => {
   try {
     const orders = await Order.find({ customer_id: req.user._id })
-      .populate('provider_id', 'business_name')
+      .populate('provider_id', 'business_name phone payment_details')
       .sort({ createdAt: -1 });
 
     res.status(200).json({ success: true, data: orders });
@@ -108,11 +108,34 @@ const addPayment = async (req, res, next) => {
       return res.status(400).json({ success: false, errors: errors.array() });
     }
 
-    const order = await OrderService.addPayment(req.params.id, req.body.amount);
+    const order = await OrderService.addPayment(req.params.id, req.body);
     res.status(200).json({ success: true, data: order });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { createOrder, getMyOrders, getProviderOrders, updateOrderStatus, getAllOrders, addPayment };
+/**
+ * @route  PUT /api/orders/:orderId/payment/:paymentId/status
+ * @access Private (Customer or Provider)
+ */
+const updatePaymentStatus = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, errors: errors.array() });
+    }
+
+    const order = await OrderService.updatePaymentStatus(
+      req.params.orderId,
+      req.params.paymentId,
+      req.body.status,
+      req.user._id
+    );
+    res.status(200).json({ success: true, data: order });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createOrder, getMyOrders, getProviderOrders, updateOrderStatus, getAllOrders, addPayment, updatePaymentStatus };

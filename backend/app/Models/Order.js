@@ -13,11 +13,17 @@ const orderItemSchema = new mongoose.Schema({
 
 const paymentSchema = new mongoose.Schema({
   amount: { type: Number, required: true },
+  payment_method: {
+    type: String,
+    enum: ['online', 'cash_in_hand'],
+    default: 'online',
+  },
   status: {
     type: String,
     enum: ['pending', 'paid', 'failed'],
     default: 'pending',
   },
+  transaction_id: { type: String, trim: true },
   date: { type: Date, default: Date.now },
 });
 

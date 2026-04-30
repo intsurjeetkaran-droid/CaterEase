@@ -150,7 +150,9 @@ See **credentials.txt** for all login details.
 | View Own Orders | ✅ | Assigned | All |
 | Update Order Status | ❌ | ✅ | ✅ |
 | Manage Menus | ❌ | ✅ | ✅ |
-| Make Payments | ✅ | ❌ | ❌ |
+| Configure Payment Details | ❌ | ✅ | ❌ |
+| Make Payments (Online/Cash) | ✅ | ❌ | ❌ |
+| Confirm Cash Payments | ❌ | ✅ | ❌ |
 | Approve Providers | ❌ | ❌ | ✅ |
 
 ---
@@ -171,17 +173,21 @@ GET    /api/customer/menus/:providerId
 POST   /api/customer/orders
 GET    /api/customer/my-orders
 POST   /api/customer/orders/:id/payment
+PUT    /api/customer/orders/:orderId/payment/:paymentId/status
 ```
 
 ### Provider
 ```
 POST   /api/provider/profile
+GET    /api/provider/profile
+PUT    /api/provider/payment-details
 GET    /api/provider/menus
 POST   /api/provider/menus
 PUT    /api/provider/menus/:id
 DELETE /api/provider/menus/:id
 GET    /api/provider/orders
 PUT    /api/provider/orders/:id/status
+PUT    /api/provider/orders/:orderId/payment/:paymentId/status
 ```
 
 ### Admin
@@ -194,7 +200,7 @@ GET    /api/admin/orders
 
 ---
 
-## 📦 Order Management
+## 📦 Order & Payment Management
 
 ### Order Fields
 - **Event Date** - When the catering service is needed
@@ -203,7 +209,28 @@ GET    /api/admin/orders
 - **Guest Count** - Number of people to serve (optional)
 - **Special Notes** - Any special requirements or instructions
 - **Menu Items** - Selected dishes with quantities
-- **Payments** - Track advance and remaining payments
+- **Payments** - Track payments with multiple methods
+
+### Payment System
+
+#### Payment Methods
+1. **Online Payment** - Customer pays via UPI/QR code
+   - Caterer configures UPI ID and QR code in Payment Settings
+   - Customer sees payment details and can copy UPI ID
+   - Customer submits payment with optional transaction ID
+   - Payment status: pending → paid (customer confirms)
+
+2. **Cash in Hand** - Customer pays caterer directly
+   - Customer selects cash payment option
+   - Payment status: pending → paid (caterer confirms receipt)
+   - Caterer can mark as received or failed
+
+#### Payment Features
+- **Partial Payments** - Pay in installments
+- **Payment Tracking** - See paid, pending, and remaining amounts
+- **Payment History** - Complete transaction log per order
+- **Flexible Confirmation** - Both parties can update payment status
+- **Secure Details** - Payment info only visible to order participants
 
 ### Order Status Flow
 
@@ -282,18 +309,24 @@ npm run preview  # Preview production build
 - Specify event location, date, and guest count
 - Add special instructions for caterers
 - Track order status in real-time
-- Make partial or full payments
-- View complete order history
+- **Choose payment method** - Online (UPI/QR) or Cash in Hand
+- **View caterer's payment details** - UPI ID, QR code, bank info
+- **Make partial or full payments** with transaction tracking
+- **Copy UPI ID** with one click for easy payment
+- View complete order history with payment breakdown
 
 ### For Caterers (Providers)
 - Create business profile with contact details
+- **Configure payment details** - UPI ID, QR code, bank name
 - Manage menu items with categories and descriptions
 - Receive orders with complete customer information
 - View customer phone number and event location
 - See guest count and special requirements
 - Update order status through workflow
-- Track earnings from completed orders
-- Dashboard with key metrics
+- **Confirm cash payments** received from customers
+- **Track payment status** - paid, pending, remaining
+- Dashboard with key metrics and earnings
+- View payment history per order
 
 ### For Admins
 - Approve or reject provider applications
@@ -307,27 +340,40 @@ npm run preview  # Preview production build
 ## 🎨 Frontend Features
 
 - **Modern UI** - Clean, responsive design with Tailwind CSS
+- **Dark Mode** - Full dark theme support with toggle
 - **Real-time Updates** - TanStack Query for data synchronization
 - **Role-based Navigation** - Dynamic menus based on user role
 - **Protected Routes** - Automatic redirection based on authentication
 - **Toast Notifications** - User-friendly feedback for all actions
+- **Payment Modal** - Interactive payment interface with QR code display
+- **Copy to Clipboard** - Quick UPI ID copying
 - **Loading States** - Smooth loading indicators
 - **Error Handling** - Graceful error messages with retry options
 - **Mobile Responsive** - Works seamlessly on all devices
+- **Password Toggle** - Show/hide password in auth forms
 
 ---
 
 ## 🚀 Deployment
 
-### Backend
-- Deploy to Railway, Render, or Heroku
-- Set environment variables
+### Backend (Render/Railway/Heroku)
+- Deploy to your preferred platform
+- Set environment variables:
+  - `MONGODB_URI` - MongoDB Atlas connection string
+  - `JWT_SECRET` - Strong secret key
+  - `NODE_ENV=production`
+  - `PORT=5000`
 - Connect to MongoDB Atlas
+- Run seed script if needed
 
-### Frontend
-- Deploy to Vercel, Netlify, or Cloudflare Pages
-- Update API base URL in production
-- Build with `npm run build`
+### Frontend (Vercel/Netlify/Render)
+- Deploy static site
+- Build command: `npm run build`
+- Output directory: `dist`
+- The `_redirects` file handles SPA routing (no 404 on refresh)
+- CORS is configured for production URLs:
+  - Frontend: https://caterease-frontend-blyo.onrender.com
+  - Backend: https://caterease-d13p.onrender.com
 
 ---
 

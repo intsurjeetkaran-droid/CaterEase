@@ -42,18 +42,22 @@ export const customerAPI = {
   getMenus: (providerId) => api.get(`/customer/menus/${providerId}`),
   createOrder: (data) => api.post('/customer/orders', data),
   getMyOrders: () => api.get('/customer/my-orders'),
-  addPayment: (orderId, amount) => api.post(`/customer/orders/${orderId}/payment`, { amount }),
+  addPayment: (orderId, paymentData) => api.post(`/customer/orders/${orderId}/payment`, paymentData),
+  updatePaymentStatus: (orderId, paymentId, status) => api.put(`/customer/orders/${orderId}/payment/${paymentId}/status`, { status }),
 };
 
 // Provider
 export const providerAPI = {
   createProfile: (data) => api.post('/provider/profile', data),
+  getProfile: () => api.get('/provider/profile'),
+  updatePaymentDetails: (data) => api.put('/provider/payment-details', data),
   getMenus: () => api.get('/provider/menus'),
   createMenu: (data) => api.post('/provider/menus', data),
   updateMenu: (id, data) => api.put(`/provider/menus/${id}`, data),
   deleteMenu: (id) => api.delete(`/provider/menus/${id}`),
   getOrders: () => api.get('/provider/orders'),
   updateOrderStatus: (id, status) => api.put(`/provider/orders/${id}/status`, { status }),
+  updatePaymentStatus: (orderId, paymentId, status) => api.put(`/provider/orders/${orderId}/payment/${paymentId}/status`, { status }),
 };
 
 // Admin

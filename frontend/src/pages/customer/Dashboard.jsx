@@ -7,11 +7,11 @@ import Spinner from '../../components/common/Spinner'
 
 function StatCard({ icon, label, value, color }) {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-4">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm flex items-center gap-4">
       <div className={`p-3 rounded-xl ${color}`}>{icon}</div>
       <div>
-        <p className="text-sm text-gray-500">{label}</p>
-        <p className="text-2xl font-bold text-gray-900">{value}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
+        <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
       </div>
     </div>
   )
@@ -32,8 +32,8 @@ function CustomerDashboard() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Welcome, {user?.name} 👋</h1>
-        <p className="text-gray-500 mt-1">Here's your catering overview</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome, {user?.name} 👋</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Here's your catering overview</p>
       </div>
 
       {isLoading ? (
@@ -45,26 +45,26 @@ function CustomerDashboard() {
               icon={<ShoppingBag size={22} className="text-orange-500" />}
               label="Total Orders"
               value={orders.length}
-              color="bg-orange-50"
+              color="bg-orange-50 dark:bg-orange-900/30"
             />
             <StatCard
               icon={<Users size={22} className="text-blue-500" />}
               label="Pending"
               value={pending}
-              color="bg-blue-50"
+              color="bg-blue-50 dark:bg-blue-900/30"
             />
             <StatCard
               icon={<CreditCard size={22} className="text-green-500" />}
               label="Total Spent"
               value={`₹${totalSpent.toLocaleString()}`}
-              color="bg-green-50"
+              color="bg-green-50 dark:bg-green-900/30"
             />
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <Link
               to="/customer/providers"
-              className="bg-orange-500 text-white rounded-2xl p-6 flex items-center justify-between hover:bg-orange-600 transition-colors"
+              className="bg-orange-500 dark:bg-orange-600 text-white rounded-2xl p-6 flex items-center justify-between hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors"
             >
               <div>
                 <p className="font-semibold text-lg">Browse Providers</p>
@@ -74,13 +74,13 @@ function CustomerDashboard() {
             </Link>
             <Link
               to="/customer/orders"
-              className="bg-white border border-gray-200 rounded-2xl p-6 flex items-center justify-between hover:shadow-md transition-shadow"
+              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 flex items-center justify-between hover:shadow-md transition-shadow"
             >
               <div>
-                <p className="font-semibold text-lg text-gray-900">My Orders</p>
-                <p className="text-gray-500 text-sm mt-1">{completed} completed orders</p>
+                <p className="font-semibold text-lg text-gray-900 dark:text-white">My Orders</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{completed} completed orders</p>
               </div>
-              <ArrowRight size={24} className="text-gray-400" />
+              <ArrowRight size={24} className="text-gray-400 dark:text-gray-500" />
             </Link>
           </div>
         </>

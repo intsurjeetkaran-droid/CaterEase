@@ -10,7 +10,7 @@ import ErrorMessage from '../../components/common/ErrorMessage'
 function ProviderMenus() {
   const { providerId } = useParams()
   const navigate = useNavigate()
-  const [cart, setCart] = useState({}) // { menuId: { item, quantity } }
+  const [cart, setCart] = useState({})
   const [eventDate, setEventDate] = useState('')
   const [eventLocation, setEventLocation] = useState('')
   const [customerPhone, setCustomerPhone] = useState('')
@@ -74,13 +74,16 @@ function ProviderMenus() {
     })
   }
 
+  const inputClass = "w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+  const labelClass = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <Link to="/customer/providers" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-orange-500 mb-6 transition-colors">
+      <Link to="/customer/providers" className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 mb-6 transition-colors">
         <ArrowLeft size={14} /> Back to Providers
       </Link>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Select Menu Items</h1>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Select Menu Items</h1>
 
       {isLoading ? (
         <Spinner />
@@ -94,35 +97,35 @@ function ProviderMenus() {
           {/* Menu list */}
           <div className="lg:col-span-2">
             {!menus?.length ? (
-              <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-100">
+              <div className="text-center py-16 text-gray-400 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
                 <ShoppingCart size={48} className="mx-auto mb-4 opacity-40" />
-                <p className="font-medium text-gray-500">No menu items available</p>
+                <p className="font-medium text-gray-500 dark:text-gray-400">No menu items available</p>
                 <p className="text-sm mt-1">This provider hasn't added any menu items yet.</p>
               </div>
             ) : (
               <div className="space-y-3">
                 {menus.map((item) => (
-                  <div key={item._id} className="bg-white rounded-xl border border-gray-100 p-4 flex items-center justify-between shadow-sm">
+                  <div key={item._id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex items-center justify-between shadow-sm">
                     <div className="flex-1 min-w-0 mr-4">
-                      <p className="font-medium text-gray-900">{item.name}</p>
-                      <p className="text-sm text-gray-500">{item.category}</p>
-                      {item.description && <p className="text-xs text-gray-400 mt-0.5 truncate">{item.description}</p>}
-                      <p className="text-orange-500 font-semibold mt-1">₹{item.price.toLocaleString()}</p>
+                      <p className="font-medium text-gray-900 dark:text-white">{item.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{item.category}</p>
+                      {item.description && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 truncate">{item.description}</p>}
+                      <p className="text-orange-500 dark:text-orange-400 font-semibold mt-1">₹{item.price.toLocaleString()}</p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       {cart[item._id] ? (
                         <>
                           <button
                             onClick={() => removeFromCart(item._id)}
-                            className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                            className="p-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                             aria-label="Decrease quantity"
                           >
-                            <Minus size={14} />
+                            <Minus size={14} className="text-gray-700 dark:text-gray-300" />
                           </button>
-                          <span className="w-8 text-center font-medium text-gray-900">{cart[item._id].quantity}</span>
+                          <span className="w-8 text-center font-medium text-gray-900 dark:text-white">{cart[item._id].quantity}</span>
                           <button
                             onClick={() => addToCart(item)}
-                            className="p-1.5 rounded-lg bg-orange-100 hover:bg-orange-200 text-orange-600 transition-colors"
+                            className="p-1.5 rounded-lg bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-orange-600 dark:text-orange-400 transition-colors"
                             aria-label="Increase quantity"
                           >
                             <Plus size={14} />
@@ -131,7 +134,7 @@ function ProviderMenus() {
                       ) : (
                         <button
                           onClick={() => addToCart(item)}
-                          className="flex items-center gap-1 bg-orange-500 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-orange-600 transition-colors"
+                          className="flex items-center gap-1 bg-orange-500 dark:bg-orange-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors"
                         >
                           <Plus size={14} /> Add
                         </button>
@@ -144,10 +147,10 @@ function ProviderMenus() {
           </div>
 
           {/* Cart / Order summary */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 h-fit sticky top-20">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-6 h-fit sticky top-20">
             <div className="flex items-center gap-2 mb-4">
-              <ShoppingCart size={20} className="text-orange-500" />
-              <h2 className="font-semibold text-gray-900">Order Summary</h2>
+              <ShoppingCart size={20} className="text-orange-500 dark:text-orange-400" />
+              <h2 className="font-semibold text-gray-900 dark:text-white">Order Summary</h2>
               {cartItems.length > 0 && (
                 <span className="ml-auto text-xs bg-orange-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
                   {cartItems.length}
@@ -156,76 +159,72 @@ function ProviderMenus() {
             </div>
 
             {!cartItems.length ? (
-              <p className="text-gray-400 text-sm text-center py-6">Your cart is empty</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm text-center py-6">Your cart is empty</p>
             ) : (
               <div className="space-y-2 mb-4">
                 {cartItems.map(({ item, quantity }) => (
                   <div key={item._id} className="flex justify-between text-sm">
-                    <span className="text-gray-700 truncate mr-2">{item.name} × {quantity}</span>
-                    <span className="font-medium shrink-0">₹{(item.price * quantity).toLocaleString()}</span>
+                    <span className="text-gray-700 dark:text-gray-300 truncate mr-2">{item.name} × {quantity}</span>
+                    <span className="font-medium shrink-0 text-gray-900 dark:text-white">₹{(item.price * quantity).toLocaleString()}</span>
                   </div>
                 ))}
-                <div className="border-t pt-2 flex justify-between font-semibold text-gray-900">
+                <div className="border-t border-gray-100 dark:border-gray-700 pt-2 flex justify-between font-semibold text-gray-900 dark:text-white">
                   <span>Total</span>
-                  <span className="text-orange-500">₹{total.toLocaleString()}</span>
+                  <span className="text-orange-500 dark:text-orange-400">₹{total.toLocaleString()}</span>
                 </div>
               </div>
             )}
 
             <div className="space-y-3 mt-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Event Date *</label>
+                <label className={labelClass}>Event Date *</label>
                 <input
                   type="date"
                   value={eventDate}
                   min={new Date(Date.now() + 86400000).toISOString().split('T')[0]}
                   onChange={(e) => setEventDate(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+                  className={inputClass}
                 />
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Event Location *</label>
+                <label className={labelClass}>Event Location *</label>
                 <input
                   type="text"
                   value={eventLocation}
                   onChange={(e) => setEventLocation(e.target.value)}
                   placeholder="e.g. Grand Hotel, Mumbai"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+                  className={inputClass}
                 />
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Your Phone *</label>
+                <label className={labelClass}>Your Phone *</label>
                 <input
                   type="tel"
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
                   placeholder="e.g. 9876543210"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+                  className={inputClass}
                 />
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Guest Count (optional)</label>
+                <label className={labelClass}>Guest Count (optional)</label>
                 <input
                   type="number"
                   min="1"
                   value={guestCount}
                   onChange={(e) => setGuestCount(e.target.value)}
                   placeholder="e.g. 100"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+                  className={inputClass}
                 />
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Special Instructions (optional)</label>
+                <label className={labelClass}>Special Instructions (optional)</label>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Any special requirements..."
                   rows="2"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300 resize-none"
+                  className={`${inputClass} resize-none`}
                 />
               </div>
             </div>
@@ -233,7 +232,7 @@ function ProviderMenus() {
             <button
               onClick={placeOrder}
               disabled={mutation.isPending || !cartItems.length || !menus?.length}
-              className="mt-4 w-full bg-orange-500 text-white py-2.5 rounded-xl font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-4 w-full bg-orange-500 dark:bg-orange-600 text-white py-2.5 rounded-xl font-medium hover:bg-orange-600 dark:hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {mutation.isPending ? 'Placing order...' : 'Place Order'}
             </button>

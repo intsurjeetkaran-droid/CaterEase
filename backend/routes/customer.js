@@ -4,7 +4,7 @@ const { body, param } = require('express-validator');
 const { protect, authorize } = require('../app/Middlewares/auth');
 const { getProviders } = require('../app/Controllers/ProviderController');
 const { getProviderMenus } = require('../app/Controllers/MenuController');
-const { createOrder, getMyOrders, addPayment } = require('../app/Controllers/OrderController');
+const { createOrder, getMyOrders, addPayment, updatePaymentStatus } = require('../app/Controllers/OrderController');
 
 // All routes require authentication and customer role
 router.use(protect, authorize('customer'));
@@ -32,6 +32,18 @@ router.get('/my-orders', getMyOrders);
 router.post('/orders/:id/payment', [
   param('id').isMongoId().withMessage('Invalid order ID'),
   body('amount').isFloat({ gt: 0 }).withMessage('Payment amount must be greater than zero'),
+  body('payment_method')
+    .isIn(['online', 'cash_in_hand'])
+    .withMessage('Payment method must be either "online" or "cash_in_hand"'),
+  body('transaction_id').optional().trim(),
 ], addPayment);
+
+router.put('/orders/:orderId/payment/:paymentId/status', [
+  param('orderId').isMongoId().withMessage('Invalid order ID'),
+  param('paymentId').isMongoId().withMessage('Invalid payment ID'),
+  body('status')
+    .isIn(['paid', 'failed'])
+    .withMessage('Invalid status. Must be: paid or failed'),
+], updatePaymentStatus);
 
 module.exports = router;

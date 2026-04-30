@@ -144,9 +144,17 @@ const updateOrderStatus = async (orderId, status, userId) => {
  * Add payment to an order
  * Validates amount is positive and order is not cancelled/completed with full payment
  */
-const addPayment = async (orderId, amount) => {
+const addPayment = async (orderId, paymentData) => {
+  const { amount, payment_method, transaction_id } = paymentData;
+
   if (!amount || Number(amount) <= 0) {
     const error = new Error('Payment amount must be greater than zero');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (!payment_method || !['online', 'cash_in_hand'].includes(payment_method)) {
+    const error = new Error('Payment method must be either "online" or "cash_in_hand"');
     error.statusCode = 400;
     throw error;
   }
@@ -183,12 +191,62 @@ const addPayment = async (orderId, amount) => {
     throw error;
   }
 
-  order.payments.push({ amount: Number(amount), status: 'paid', date: new Date() });
+  // For cash_in_hand, status is pending until caterer confirms
+  // For online, status is pending until customer confirms payment
+  const paymentStatus = 'pending';
+
+  order.payments.push({ 
+    amount: Number(amount), 
+    payment_method,
+    transaction_id: transaction_id || undefined,
+    status: paymentStatus, 
+    date: new Date() 
+  });
   await order.save();
 
-  logger.info('Payment added', { order_id: orderId, amount });
+  logger.info('Payment added', { order_id: orderId, amount, payment_method });
 
   return order;
 };
 
-module.exports = { createOrder, updateOrderStatus, addPayment };
+/**
+ * Update payment status (for caterer to confirm cash_in_hand or customer to confirm online payment)
+ */
+const updatePaymentStatus = async (orderId, paymentId, status, userId) => {
+  if (!['paid', 'failed'].includes(status)) {
+    const error = new Error('Status must be either "paid" or "failed"');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const order = await Order.findById(orderId);
+
+  if (!order) {
+    const error = new Error('Order not found');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const payment = order.payments.id(paymentId);
+
+  if (!payment) {
+    const error = new Error('Payment not found');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (payment.status !== 'pending') {
+    const error = new Error(`Payment is already ${payment.status}`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  payment.status = status;
+  await order.save();
+
+  logger.info('Payment status updated', { order_id: orderId, payment_id: paymentId, status, updated_by: userId });
+
+  return order;
+};
+
+module.exports = { createOrder, updateOrderStatus, addPayment, updatePaymentStatus };
