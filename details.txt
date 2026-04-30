@@ -1,0 +1,230 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║              🍽️  CATEREASE — SIMPLE USER GUIDE                      ║
+║              For non-technical users                                 ║
+║              Developer: Surjeet Karan                                ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT IS CATEREASE?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CaterEase is an online catering marketplace where:
+
+  • Customers  → Find caterers, pick dishes, and book for their events
+  • Providers  → List their food menu and manage incoming orders
+  • Admin      → Oversees the whole platform
+
+Think of it like a food delivery app, but for events like weddings,
+birthday parties, corporate lunches, and more.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HOW TO OPEN THE APP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Make sure the app is running (ask your developer to start it)
+2. Open your web browser (Chrome, Firefox, Edge — any works)
+3. Go to:  http://localhost:3000
+
+That's it! You'll see the CaterEase homepage.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HOW TO LOG IN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Click "Login" in the top-right corner
+2. Enter your email and password
+3. Click "Sign In"
+
+You will be taken to your personal dashboard automatically.
+
+Don't have an account? Click "Sign Up" and fill in your details.
+Choose your role: Customer or Catering Provider.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IF YOU ARE A CUSTOMER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1 — Browse Providers
+  • After logging in, click "Browse Providers" or go to Providers in the menu
+  • You'll see a list of all approved catering businesses
+  • Each card shows the business name, location, and phone number
+
+Step 2 — Pick Your Menu
+  • Click "View Menu" on any provider card
+  • You'll see all their available dishes with prices and descriptions
+  • Click "Add" next to any dish to add it to your cart
+  • Use the + and − buttons to change quantities
+  • The total price updates automatically on the right side
+
+Step 3 — Enter Event Details
+  • On the right side order form, fill in:
+    - Event Date (must be in the future)
+    - Event Location (full address or venue name)
+    - Your Phone Number (so caterer can contact you)
+    - Guest Count (optional, helps caterer prepare)
+    - Special Instructions (optional, any dietary requirements)
+
+Step 4 — Place Your Order
+  • Review your cart and event details
+  • Click "Place Order" when you're ready
+  • You'll be taken to your orders page
+
+Step 5 — Make a Payment
+  • Go to "My Orders" in the menu
+  • Find your order and click "Pay Now"
+  • Enter the amount you want to pay
+  • You can pay in parts (advance + remaining later)
+  • Once fully paid, the order shows "✓ Fully paid"
+
+Step 6 — Track Your Order
+  • Your order will show one of these statuses:
+    ⏳ Pending    — Waiting for the provider to accept
+    ✅ Accepted   — Provider has confirmed your booking
+    🔄 In Progress — Preparation is underway
+    ✅ Completed  — Event done!
+    ❌ Cancelled  — Order was cancelled
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IF YOU ARE A CATERING PROVIDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1 — Create Your Business Profile
+  • After signing up as a Provider, go to your Dashboard
+  • You'll be prompted to set up your business profile
+  • Fill in: Business Name, Phone Number, Address
+  • Submit and wait for Admin approval
+
+  ⚠️  Important: You cannot add menu items or receive orders
+      until the Admin approves your profile.
+
+Step 2 — Add Your Menu Items
+  • Once approved, go to "Manage Menus" in the top menu
+  • Click "Add Item"
+  • Fill in: 
+    - Item Name (e.g., Paneer Tikka)
+    - Category (e.g., Starters, Main Course, Desserts)
+    - Price per serving
+    - Description (optional, helps customers understand the dish)
+  • Click "Save Item"
+  • Repeat for all your dishes
+
+Step 3 — Manage Incoming Orders
+  • Go to "Orders" in the top menu
+  • You'll see all orders placed by customers
+  • Each order shows:
+    - Customer name and email
+    - Customer phone number (📞 highlighted in orange)
+    - Event date and location
+    - Guest count (if provided)
+    - Special instructions/notes
+    - Dishes ordered with quantities
+    - Total amount
+  
+  • Use the buttons to update the order status:
+    → Click "Mark as Accepted"   when you confirm the booking
+    → Click "Mark as In Progress" when you start preparation
+    → Click "Mark as Completed"  after the event is done
+    → Click "Cancel"             if you cannot fulfill the order
+
+Step 4 — Contact Customers
+  • Customer phone number is displayed prominently on each order
+  • Event location shows exactly where you need to deliver/serve
+  • Guest count helps you prepare the right quantity
+  • Special notes contain any dietary requirements or preferences
+
+Step 5 — View Your Earnings
+  • Your Dashboard shows:
+    - Pending Orders count
+    - In Progress count
+    - Completed Orders count
+    - Total Earnings from completed orders
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IF YOU ARE THE ADMIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your job is to keep the platform running smoothly.
+
+Dashboard
+  • See total users, total orders, and total revenue at a glance
+  • View pending provider approvals
+
+Manage Users (Users page)
+  • See every registered user (customers, providers, admins)
+  • For providers, you'll see their approval status
+  • Click "Approve" to allow a provider to start listing menus
+  • Click "Reject" to deny a provider
+
+Monitor Orders (Orders page)
+  • See every order placed on the platform
+  • View customer name, provider name, event date, amount, and status
+  • Track platform-wide revenue
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMMON QUESTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Q: I can't log in. What do I do?
+A: Make sure you're using the correct email and password.
+   Passwords are case-sensitive. If you forgot it, contact your admin.
+
+Q: I placed an order but the provider hasn't responded.
+A: The order will show "Pending" until the provider accepts it.
+   You can contact the provider directly using their phone number
+   shown on the provider card.
+
+Q: Can I cancel my order?
+A: Currently only the provider can cancel an order.
+   Contact the provider directly using the phone number on your order
+   to request a cancellation.
+
+Q: I paid but the order still shows a remaining balance.
+A: You may have made a partial payment. Click "Pay Now" again
+   to pay the remaining amount.
+
+Q: My provider account says "pending" — what does that mean?
+A: Your business profile is waiting for admin approval.
+   Once approved, you can add menu items and receive orders.
+
+Q: The page shows an error. What should I do?
+A: Click the "Try again" button. If the problem continues,
+   refresh the page or contact your developer.
+
+Q: Why do I need to provide my phone number when ordering?
+A: The caterer needs your phone number to coordinate delivery,
+   confirm event details, and handle any last-minute changes.
+
+Q: Can I edit my order after placing it?
+A: Currently, you cannot edit orders after placing them.
+   Contact the caterer directly using their phone number to
+   discuss any changes.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUICK REFERENCE — TEST ACCOUNTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+See credentials.txt for all login details.
+
+Admin login   →  admin@caterease.com   /  Admin@1234
+Customer      →  amit@example.com      /  Customer@1
+Provider      →  ravi@caterease.com    /  Provider@1
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NEED HELP?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+If something doesn't work as expected, contact your developer
+and describe what you were doing and what happened.
+
+App URL   →  http://localhost:3000
+
+Developer →  Surjeet Karan
+

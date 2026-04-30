@@ -1,0 +1,322 @@
+🚀 🍽️ CATERING PLATFORM — MASTER GUIDE
+
+✅ 🔥 PROJECT TRACKER
+[x] 1. Setup (Express + MongoDB + React)        ✅ Done — backend/ + frontend/ scaffolded
+[x] 2. Auth System (Register/Login + Roles)     ✅ Done — JWT, bcrypt, AuthService, AuthController
+[x] 3. Role-Based Access (RBAC)                 ✅ Done — protect + authorize() middleware
+
+[x] 4. Logging System Setup                     ✅ Done — Winston logger (combined.log + error.log)
+[x] 5. Code Structure (Services + Clean Code)   ✅ Done — Controllers / Services / Models / Helpers
+
+[x] 6. Customer Module                          ✅ Done — browse providers, build menu, place order, pay
+[x] 7. Provider Module                          ✅ Done — manage menus, accept/reject orders, update status
+[x] 8. Admin Module                             ✅ Done — view all users, approve providers, monitor orders
+
+[x] 9. Menu Management                          ✅ Done — CRUD menus per provider
+[x] 10. Order Management (CORE)                 ✅ Done — create, status flow, embedded items + payments
+[x] 11. Payment System                          ✅ Done — advance/remaining payments tracked per order
+
+[x] 12. Unique Landing Page                     ✅ Done — hero, search bar, how-it-works, CTA sections
+[x] 13. Dashboards (All Roles)                  ✅ Done — Customer / Provider / Admin dashboards
+
+[ ] 14. Reports & Analytics                     ⏳ Pending
+[ ] 15. Testing                                 ⏳ Pending
+[ ] 16. Deployment                              ⏳ Pending
+
+🧠 1. SYSTEM OVERVIEW
+
+Multi-user catering platform:
+
+Customer → books catering
+Provider → fulfills
+Admin → monitors
+
+👥 2. ROLES
+👤 Customer
+Browse providers
+Select menu
+Create order
+Track payment
+
+🧑‍🍳 Provider
+Manage menu
+Accept/reject orders
+Update status
+View earnings
+
+🧑‍💼 Admin
+Approve providers
+Monitor system
+View reports
+
+🔐 ROLE ACCESS MATRIX
+Feature            Customer   Provider   Admin
+----------------------------------------------
+View Providers     ✅         ❌         ✅
+Manage Menu        ❌         ✅         ✅
+Create Order       ✅         ❌         ❌
+View Orders        Own       Assigned   All
+Update Orders      ❌         ✅         ✅
+Payments           View      View       Full
+Approval           ❌         ❌         ✅
+
+🗂️ 3. MODULES
+🔹 Auth
+Register/Login
+Token system
+
+🔹 Users
+All roles stored together
+
+🔹 Providers
+Business profile
+Approval system
+
+🔹 Menu
+Items
+Categories
+Pricing
+
+🔹 Orders (CORE)
+Order creation
+Items + quantity
+Status tracking
+
+🔹 Payments
+Advance
+Remaining
+Status
+
+🔹 Admin
+Monitoring
+User control
+
+🔹 Dashboard
+Role-based views
+
+🧩 4. DATABASE (MongoDB)
+users
+{
+  "_id": "ObjectId",
+  "name": "string",
+  "email": "string",
+  "password": "string",
+  "role": "customer | provider | admin"
+}
+providers
+{
+  "_id": "ObjectId",
+  "user_id": "ObjectId",
+  "business_name": "string",
+  "phone": "string",
+  "address": "string",
+  "approval_status": "pending | approved"
+}
+menus
+{
+  "_id": "ObjectId",
+  "provider_id": "ObjectId",
+  "name": "string",
+  "category": "string",
+  "price": 100
+}
+orders (CORE)
+{
+  "_id": "ObjectId",
+  "customer_id": "ObjectId",
+  "provider_id": "ObjectId",
+  "event_date": "date",
+  "status": "pending",
+
+  "items": [
+    {
+      "menu_id": "ObjectId",
+      "name": "Paneer",
+      "price": 200,
+      "quantity": 100
+    }
+  ],
+
+  "total_amount": 20000,
+
+  "payments": [
+    {
+      "amount": 10000,
+      "status": "paid",
+      "date": "date"
+    }
+  ]
+}
+
+🔄 5. ORDER STATUS FLOW
+pending → accepted → in_progress → completed → cancelled
+
+🔌 6. API STRUCTURE
+AUTH
+POST /api/register
+POST /api/login
+GET  /api/me
+
+CUSTOMER
+GET  /api/customer/providers
+GET  /api/customer/menus/:providerId
+POST /api/customer/orders
+GET  /api/customer/my-orders
+POST /api/customer/orders/:id/payment
+
+PROVIDER
+POST /api/provider/profile
+POST /api/provider/menus
+PUT  /api/provider/menus/:id
+DEL  /api/provider/menus/:id
+GET  /api/provider/orders
+PUT  /api/provider/orders/:id/status
+
+ADMIN
+GET  /api/admin/users
+PUT  /api/admin/providers/:id/approve
+GET  /api/admin/orders
+
+🧠 7. CORE LOGIC (ORDER)
+Select Menu
+→ Add Quantity
+→ Calculate Total
+→ Save Order
+→ Add Payment
+
+🧾 8. LOGGING SYSTEM (IMPLEMENTED — Winston)
+Auth    → logger.info('User login', { user_id })
+         logger.info('User registered', { user_id, role })
+Order   → logger.info('Order created', { order_id, total_amount })
+         logger.info('Order status updated', { order_id, status })
+Payment → logger.info('Payment added', { order_id, amount })
+Error   → logger.error('Error occurred', { message, stack })
+
+Log files:
+  backend/logs/combined.log   ← all logs
+  backend/logs/error.log      ← errors only
+
+🧾 9. CODE STANDARDS
+Rules:
+Small functions
+Use services
+Clear naming
+
+Example:
+/**
+ * Create Order
+ * Steps:
+ * 1. Validate menu items exist
+ * 2. Enrich items with current prices
+ * 3. Calculate total
+ * 4. Save order
+ * 5. Log
+ */
+
+🧱 10. BACKEND STRUCTURE (IMPLEMENTED)
+backend/
+ ├── app.js                  ← Express entry point
+ ├── .env                    ← Environment variables
+ ├── config/
+ │   ├── database.js         ← MongoDB connection (Mongoose)
+ │   └── logger.js           ← Winston logger
+ ├── app/
+ │   ├── Models/             ← User.js, Provider.js, Menu.js, Order.js
+ │   ├── Controllers/        ← AuthController, ProviderController, MenuController, OrderController
+ │   ├── Services/           ← AuthService.js, OrderService.js
+ │   ├── Helpers/            ← response.js
+ │   └── Middlewares/        ← auth.js (protect + authorize), errorHandler.js
+ ├── routes/
+ │   ├── auth.js
+ │   ├── customer.js
+ │   ├── provider.js
+ │   └── admin.js
+ └── logs/                   ← combined.log, error.log
+
+Dependencies:
+  express, mongoose, dotenv, bcryptjs, jsonwebtoken
+  cors, express-validator, morgan, winston
+  nodemon (dev)
+
+Run:
+  npm run dev    ← development (nodemon)
+  npm start      ← production
+
+🎨 11. UNIQUE FRONTEND (IMPLEMENTED)
+🌟 Landing Concept: "Plan your catering visually"
+
+Sections:
+  Hero                        ✅ Search bar + animated CTA
+  Interactive Menu Builder    ✅ Add items, live quantity + price update
+  Provider Cards              ✅ Browse approved providers
+  Live Price Calculator       ✅ Cart total updates instantly
+  How It Works                ✅ 3-step feature section
+  CTA Banner                  ✅ Sign up as Customer or Provider
+
+📱 DASHBOARDS (ALL IMPLEMENTED)
+  Customer   ✅ Stats (orders, pending, spent), quick links
+  Provider   ✅ Earnings, pending/in-progress counts, quick links
+  Admin      ✅ Users count, total orders, revenue
+
+frontend/
+ ├── src/
+ │   ├── pages/
+ │   │   ├── Landing.jsx
+ │   │   ├── auth/           ← Login.jsx, Register.jsx
+ │   │   ├── customer/       ← Dashboard, Providers, ProviderMenus, MyOrders
+ │   │   ├── provider/       ← Dashboard, ManageMenus, Orders
+ │   │   └── admin/          ← Dashboard, Users, Orders
+ │   ├── components/
+ │   │   ├── layout/         ← Navbar.jsx (role-aware links)
+ │   │   └── common/         ← ProtectedRoute.jsx, Spinner.jsx
+ │   ├── services/
+ │   │   └── api.js          ← Axios instance + JWT interceptors
+ │   └── store/
+ │       └── authStore.js    ← Zustand global auth state
+ ├── tailwind.config.js
+ ├── postcss.config.js
+ └── vite.config.js          ← Vite 5, proxy /api → localhost:5000
+
+Tech Stack:
+  React 18 + Vite 5
+  Tailwind CSS 3
+  React Router v6
+  TanStack Query v5
+  Zustand
+  Axios
+  React Hot Toast
+  Lucide React
+
+Run:
+  npm run dev    ← http://localhost:3000
+  npm run build  ← production build
+
+⚠️ 12. COMMON MISTAKES
+
+❌ Build everything at once
+❌ Bad UI
+❌ No logging
+❌ No structure
+
+🚀 13. DEVELOPMENT PLAN
+Phase 1  ✅ DONE
+  Auth, Roles, Menu, Orders, Payments, Dashboards, Landing
+
+Phase 2  ⏳ NEXT
+  Reports & Analytics
+  Provider approval flow (email notifications)
+  Order search + filters
+
+Phase 3  ⏳ PENDING
+  Testing (Jest + Supertest for backend, Vitest for frontend)
+  Deployment (Docker / Railway / Vercel)
+
+🔥 FINAL SUMMARY
+
+Your system is:
+
+A multi-vendor catering marketplace with structured backend, logging, and interactive frontend.
+
+Stack: Node.js + Express + MongoDB + React 18 + Tailwind CSS
+Auth:  JWT + bcrypt + role-based access control
+Built: Phases 1–2 complete (13/16 tasks done)
